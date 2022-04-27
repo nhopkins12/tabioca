@@ -9,8 +9,6 @@
     "build": "cross-env NODE_ENV=production webpack -p",
     "lint": "eslint --ext .js,.jsx .",
     "cm": "git-cz",
-    "precommit": "lint-staged",
-    "commitmsg": "commitlint --edit",
     "release": "webstore upload --source=dist --auto-publish"
   },
   "config": {
