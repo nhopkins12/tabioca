@@ -7,6 +7,8 @@ const propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     favIconUrl: PropTypes.string.isRequired,
+    groupName: PropTypes.string.isRequired,
+    groupId: PropTypes.string.isRequired,
   }).isRequired,
   isActive: PropTypes.bool,
   isHighlighted: PropTypes.bool,
@@ -97,6 +99,7 @@ const favIconPlaceholder = (
 );
 
 function Tab({ tab, isHighlighted, onRemove, ...props }) {
+  console.log(tab.groupId)
   return (
     <Container isHighlighted={isHighlighted} {...props}>
       <FavIcon>
@@ -107,6 +110,7 @@ function Tab({ tab, isHighlighted, onRemove, ...props }) {
         )}
       </FavIcon>
       <Title>{tab.title}</Title>
+
       <CloseIcon
         isHighlighted={isHighlighted}
         onClick={event => {

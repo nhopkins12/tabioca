@@ -3,6 +3,7 @@ import Fuse from 'fuse.js';
 import glamorous, { ThemeProvider, Span } from 'glamorous';
 
 import FilterInput from './FilterInput';
+//import Sort from './Sort';
 import List from './List';
 import Tab from './Tab';
 
@@ -26,6 +27,7 @@ class App extends Component {
   state = {
     filterValue: '',
     tabs: null,
+    // tabGroups: null,
     currentWindowId: null,
     highlightedIndex: 0,
   };
@@ -38,16 +40,24 @@ class App extends Component {
         new Promise(resolve => {
           chrome.tabs.query({}, tabs => resolve(tabs));
         }),
+
+        new Promise(resolve => {
+          chrome.tabGroups.get(1615999448, tabGroups => resolve(tabGroups));
+        }),
+
         new Promise(resolve => {
           chrome.windows.getCurrent({}, ({ id }) => resolve(id));
         }),
       ];
 
-      Promise.all(promises).then(([tabs, currentWindowId]) => {
-        const highlightedIndex = this.getActiveIndex(tabs, currentWindowId);
+      console.log(promises)
 
+      Promise.all(promises).then(([tabs, tabGroups, currentWindowId]) => {
+        const highlightedIndex = this.getActiveIndex(tabs, currentWindowId);
+        // console.log(tabGroups)
         this.setState({
           tabs,
+          // tabGroups,
           currentWindowId,
           highlightedIndex,
         });
@@ -105,7 +115,6 @@ class App extends Component {
 
   render() {
     const tabs = this.filterTabs(this.state.tabs, this.state.filterValue);
-
     return (
       <ThemeProvider theme={theme}>
         <Container>
@@ -116,7 +125,7 @@ class App extends Component {
           />
           {tabs && (
             <List
-              style={{ flex: '1 1 auto', padding: 12 }}
+              style={{ flex: '1 1 auto', padding: 20 }}
               data={tabs}
               highlightedIndex={this.state.highlightedIndex}
               onChange={this.handleHighlightChange}
