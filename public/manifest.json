@@ -1,7 +1,7 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Tabio",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "An open source tab manager for Chrome",
   "author": "Cole Bemis <cole@colebemis.com> (http://colebemis.com)",
   "commands": {
@@ -17,7 +17,7 @@
     "48": "icon48.png",
     "128": "icon128.png"
   },
-  "browser_action": {
+  "action": {
     "default_icon": {
       "16": "icon16.png",
       "24": "icon24.png",
