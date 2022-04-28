@@ -27,7 +27,7 @@ class App extends Component {
   state = {
     filterValue: '',
     tabs: null,
-    // tabGroups: null,
+    tabGroups: null,
     currentWindowId: null,
     highlightedIndex: 0,
   };
@@ -42,7 +42,7 @@ class App extends Component {
         }),
 
         new Promise(resolve => {
-          chrome.tabGroups.get(1615999448, tabGroups => resolve(tabGroups));
+          chrome.tabGroups.query({}, tabGroups => resolve(tabGroups));
         }),
 
         new Promise(resolve => {
@@ -50,14 +50,12 @@ class App extends Component {
         }),
       ];
 
-      console.log(promises)
-
       Promise.all(promises).then(([tabs, tabGroups, currentWindowId]) => {
         const highlightedIndex = this.getActiveIndex(tabs, currentWindowId);
         // console.log(tabGroups)
         this.setState({
           tabs,
-          // tabGroups,
+          tabGroups,
           currentWindowId,
           highlightedIndex,
         });
@@ -113,8 +111,18 @@ class App extends Component {
     return fuse.search(filterValue);
   };
 
+  handleGroup = tab => {
+      // console.log(tabGroups)
+      // console.log(tab.groupId)
+      // console.log(tabGroups.findIndex(tabGroup => tabGroup.id === tab.groupId))
+      // console.log()
+      return tabGroups[tabGroups.findIndex(tabGroup => tabGroup.id === tab.groupId)];
+    }
+
   render() {
+    // console.log(this.state)
     const tabs = this.filterTabs(this.state.tabs, this.state.filterValue);
+
     return (
       <ThemeProvider theme={theme}>
         <Container>
@@ -127,6 +135,7 @@ class App extends Component {
             <List
               style={{ flex: '1 1 auto', padding: 20 }}
               data={tabs}
+              grouplist={this.state.tabGroups}
               highlightedIndex={this.state.highlightedIndex}
               onChange={this.handleHighlightChange}
               onSelect={this.handleTabSelect}

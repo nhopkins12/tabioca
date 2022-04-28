@@ -7,9 +7,11 @@ const propTypes = {
     title: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     favIconUrl: PropTypes.string.isRequired,
-    groupName: PropTypes.string.isRequired,
-    groupId: PropTypes.string.isRequired,
   }).isRequired,
+  group: PropTypes.shape({
+    title: PropTypes.string,
+    color: PropTypes.string,
+  }),
   isActive: PropTypes.bool,
   isHighlighted: PropTypes.bool,
   onMouseEnter: PropTypes.func,
@@ -91,6 +93,9 @@ const CloseIcon = glamorous('svg', { withProps: { viewBox: '0 0 16 16' } })(
     },
 );
 
+const groupLabel = glamorous.circle({
+});
+
 const favIconPlaceholder = (
   <svg viewBox="0 0 16 16" fill="none" stroke="#5A5A5A" strokeWidth="1">
     <polygon points="3.5,1.5 8.5,1.5 12.5,5.5 12.5,14.5 3.5,14.5" />
@@ -98,8 +103,8 @@ const favIconPlaceholder = (
   </svg>
 );
 
-function Tab({ tab, isHighlighted, onRemove, ...props }) {
-  console.log(tab.groupId)
+function Tab({ tab, group, isHighlighted, onRemove, ...props }) {
+  console.log(group)
   return (
     <Container isHighlighted={isHighlighted} {...props}>
       <FavIcon>
@@ -110,7 +115,7 @@ function Tab({ tab, isHighlighted, onRemove, ...props }) {
         )}
       </FavIcon>
       <Title>{tab.title}</Title>
-
+      <h1>{group.title}</h1>
       <CloseIcon
         isHighlighted={isHighlighted}
         onClick={event => {
