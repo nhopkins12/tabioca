@@ -120,7 +120,7 @@ class App extends Component {
     }
 
   render() {
-    // console.log(this.state)
+    // console.log(this.state.tabGroups)
     const tabs = this.filterTabs(this.state.tabs, this.state.filterValue);
 
     return (
@@ -135,7 +135,6 @@ class App extends Component {
             <List
               style={{ flex: '1 1 auto', padding: 20 }}
               data={tabs}
-              grouplist={this.state.tabGroups}
               highlightedIndex={this.state.highlightedIndex}
               onChange={this.handleHighlightChange}
               onSelect={this.handleTabSelect}
@@ -144,6 +143,7 @@ class App extends Component {
                 <Tab
                   key={item.id}
                   tab={item}
+                  group={this.state.tabGroups}
                   isHighlighted={isHighlighted}
                   isActive={
                     item.windowId === this.state.currentWindowId && item.active

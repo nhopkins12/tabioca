@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import glamorous from 'glamorous';
+import { left } from 'glamor';
 
 const propTypes = {
   tab: PropTypes.shape({
@@ -8,10 +9,7 @@ const propTypes = {
     url: PropTypes.string.isRequired,
     favIconUrl: PropTypes.string.isRequired,
   }).isRequired,
-  group: PropTypes.shape({
-    title: PropTypes.string,
-    color: PropTypes.string,
-  }),
+  group: PropTypes.arrayOf(PropTypes.any),
   isActive: PropTypes.bool,
   isHighlighted: PropTypes.bool,
   onMouseEnter: PropTypes.func,
@@ -93,7 +91,16 @@ const CloseIcon = glamorous('svg', { withProps: { viewBox: '0 0 16 16' } })(
     },
 );
 
-const groupLabel = glamorous.circle({
+const GroupLabel = glamorous.span({
+  textAlign: 'right',
+  flex: '1 1 auto',
+  margin: '0 2px',
+  fontSize: 12,
+  lineHeight: '20px',
+  whiteSpace: 'nowrap',
+  borderRadius: 3,
+  textOverflow: 'ellipsis',
+  overflow: 'hidden',
 });
 
 const favIconPlaceholder = (
@@ -103,8 +110,25 @@ const favIconPlaceholder = (
   </svg>
 );
 
+const matchGroup = (tab, group) => {
+  var color = null
+  var title = null
+
+  if (tab.groupId != -1) {
+    const groupIndex = group.findIndex(grp => grp.id === tab.groupId)
+    color = group[groupIndex].color
+    title = group[groupIndex].title
+  }
+  return {
+    title: title,
+    color: color,
+  }
+}
 function Tab({ tab, group, isHighlighted, onRemove, ...props }) {
+  const groupData = matchGroup(tab, group)
+  console.log(tab)
   console.log(group)
+  console.log(groupData)
   return (
     <Container isHighlighted={isHighlighted} {...props}>
       <FavIcon>
@@ -115,7 +139,7 @@ function Tab({ tab, group, isHighlighted, onRemove, ...props }) {
         )}
       </FavIcon>
       <Title>{tab.title}</Title>
-      <h1>{group.title}</h1>
+      <GroupLabel>{groupData.title}</GroupLabel>
       <CloseIcon
         isHighlighted={isHighlighted}
         onClick={event => {

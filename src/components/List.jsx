@@ -6,7 +6,6 @@ import { Div } from 'glamorous';
 class List extends React.PureComponent {
   static propTypes = {
     data: PropTypes.arrayOf(PropTypes.any),
-    group: PropTypes.arrayOf(PropTypes.any),
     highlightedIndex: PropTypes.number,
     style: PropTypes.objectOf(PropTypes.any),
     renderItem: PropTypes.func.isRequired,
@@ -212,7 +211,6 @@ class List extends React.PureComponent {
           this.props.data.map((item, index) =>
             this.props.renderItem({
               item,
-              group, 
               isHighlighted: index === this.props.highlightedIndex,
               itemEventHandlers: this.getItemEventHandlers(item, index),
             }),
